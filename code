@@ -40,6 +40,18 @@ death
 ```
 
 ```{r}
+#Converting binary/factor columns to numeric
+heart$anaemia<-as.numeric(heart$anaemia)
+heart$creatinine_phosphokinase<-as.numeric(heart$creatinine_phosphokinase)
+heart$diabetes<-as.numeric(heart$diabetes)
+heart$ejection_fraction<-as.numeric(heart$ejection_fraction)
+heart$high_blood_pressure<-as.numeric(heart$high_blood_pressure)
+heart$serum_sodium<-as.numeric(heart$serum_sodium)
+heart$sex<-as.numeric(heart$sex)
+heart$smoking<-as.numeric(heart$smoking)
+heart$time<-as.numeric(heart$time)
+heart$DEATH_EVENT<-as.numeric(heart$DEATH_EVENT)
+
 heart_df<-cor(heart[c("age","anaemia","creatinine_phosphokinase","diabetes","ejection_fraction","high_blood_pressure","platelets","serum_creatinine","serum_sodium","sex","smoking","time","DEATH_EVENT")])
 heart_df
 
