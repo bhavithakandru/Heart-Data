@@ -1,0 +1,49 @@
+```{r}
+# Load Packages
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# Loading dataset
+heart <-read.csv("~/Downloads/heart_failure_clinical_records.csv")
+
+# Checking the dataset
+str(heart)
+summary(heart)
+glimpse(heart)
+```
+
+```{r}
+# Visulaization
+# Labelling DEATH_EVENT as alive and dead
+heart$DEATH_EVENT<-factor(heart$DEATH_EVENT,levels=c(0,1),labels = c("Alive","Dead"))
+
+# Labelling sex as Male and Female
+heart$sex<-factor(heart$sex,levels=c(0,1),labels = c("Male","Female"))
+death <- heart %>%
+  group_by(sex) %>%
+  summarise(Alive = sum(DEATH_EVENT == "Alive"),
+            Dead = sum(DEATH_EVENT == "Dead")) 
+
+# Creating a pie chart
+pie_chart <- death %>%
+  pivot_longer(cols = c(Alive, Dead), names_to = "Status", values_to = "Count") 
+ 
+ggplot(pie_chart, aes(x = "", y = Count, fill = Status)) +
+  geom_bar(width = 1, stat = "identity") +
+  facet_wrap(~ sex) +
+  coord_polar("y", start = 0) +
+  theme_void() +
+  theme(legend.title = element_blank()) +
+  labs(fill = "Status")
+death
+```
+
+```{r}
+heart_df<-cor(heart[c("age","anaemia","creatinine_phosphokinase","diabetes","ejection_fraction","high_blood_pressure","platelets","serum_creatinine","serum_sodium","sex","smoking","time","DEATH_EVENT")])
+heart_df
+
+library(psych)
+# create correlation & distribution panel visualization for continuous variables
+pairs.panels(heart[c("age","anaemia","creatinine_phosphokinase","diabetes","ejection_fraction","high_blood_pressure","platelets","serum_creatinine","serum_sodium","sex","smoking","time","DEATH_EVENT")])
+```
